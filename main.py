@@ -58,11 +58,11 @@ def message_response():
             resp.message("Unable to recognize media format. Please send a jpeg or png image.")
             return str(resp)
         filename = request.form['MessageSid'] + extension
-        with open('{}/{}'.format('..', filename), 'wb') as f:
+        with open('{}/{}'.format('images', filename), 'wb') as f:
             image_url = request.form['MediaUrl0']
             f.write(requests.get(image_url).content)
         
-        file_name = '../' + filename
+        file_name = 'images/' + filename
         image_labels = detect_labels(file_name)
         descriptions = []
         for label in image_labels:
@@ -78,7 +78,7 @@ def message_response():
         conn.commit()
         cur.close()
         
-        resp.message('Your issue has been registered and will be investigated as soon as possible.' + descriptions[0])
+        resp.message('Your issue has been registered and will be investigated as soon as possible.')
     return str(resp)
 if __name__ == "__main__":
     app.run(debug=True)
